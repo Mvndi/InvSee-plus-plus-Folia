@@ -1,3 +1,5 @@
+we didnt actually doa nything but make folia-support to true tbh but compiling the jar is annoying so ill put it in releases here but also setupEnv.sh makes it less annoying if u do wanna do it urself
+
 # InvSee++
 
 A bukkit plugin for manipulating player inventories.
