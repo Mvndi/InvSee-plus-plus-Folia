@@ -2,7 +2,7 @@
     <parent>
         <artifactId>invsee-plus-plus</artifactId>
         <groupId>com.janboerman.invsee</groupId>
-        <version>0.30.8-SNAPSHOT</version>
+        <version>0.31.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -39,6 +39,20 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <paperweight-mappings-namespace>mojang</paperweight-mappings-namespace>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
         </plugins>
 
         <resources>
@@ -84,13 +98,25 @@
         </dependency>
         <dependency>
             <groupId>com.janboerman.invsee</groupId>
-            <artifactId>give_impl_1_21_7_r5</artifactId>
+            <artifactId>give_impl_1_21_11_r7</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.janboerman.invsee</groupId>
-            <artifactId>give_impl_1_21_6_r5</artifactId>
+            <artifactId>give_impl_paper_1_21_11</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.janboerman.invsee</groupId>
+            <artifactId>give_impl_1_21_9_r6</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.janboerman.invsee</groupId>
+            <artifactId>give_impl_1_21_7_r5</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -103,12 +129,6 @@
         <dependency>
             <groupId>com.janboerman.invsee</groupId>
             <artifactId>give_impl_1_21_4_r3</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.janboerman.invsee</groupId>
-            <artifactId>give_impl_1_21_3_r2</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

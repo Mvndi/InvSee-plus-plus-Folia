@@ -32,10 +32,8 @@ import com.janboerman.invsee.spigot.internal.NamesAndUUIDs;
 import com.janboerman.invsee.spigot.internal.OpenSpectatorsCache;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.Dynamic;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.craftbukkit.v1_21_R5.CraftServer;
@@ -50,9 +48,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.Plugin;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.TagType;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
 import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
@@ -61,13 +58,11 @@ import net.minecraft.server.dedicated.DedicatedPlayerList;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.PlayerDataStorage;
 import net.minecraft.world.level.storage.ValueInput;
 
@@ -319,12 +314,18 @@ public class InvseeImpl implements InvseePlatform {
     }
 
     private static DataResult<ResourceKey<Level>> parseLegacyDimensionType(ValueInput nbttagcompound) {
-        Optional<Integer> dimensionInput = nbttagcompound.getInt("Dimension");
-        if (dimensionInput.isPresent()) {
-            switch (dimensionInput.get()) {
-                case -1: return DataResult.success(Level.NETHER);
-                case 0: return DataResult.success(Level.OVERWORLD);
-                case 1: return DataResult.success(Level.END);
+        try {
+            Optional<Integer> dimensionInput = nbttagcompound.getInt("Dimension"); // because of our PoblemReporter, this throws an exception when the type is not int.
+            if (dimensionInput.isPresent()) {
+                switch (dimensionInput.get()) {
+                    case -1: return DataResult.success(Level.NETHER);
+                    case 0: return DataResult.success(Level.OVERWORLD);
+                    case 1: return DataResult.success(Level.END);
+                }
+            }
+        } catch (WrongNbtTypeException e) {
+            if (e.problem.actual() != StringTag.TYPE) {
+                return DataResult.error(() -> "Unexpected NBT type for field 'Dimension'. Expected number or string, but got: " + e.problem.actual().getName());
             }
         }
 

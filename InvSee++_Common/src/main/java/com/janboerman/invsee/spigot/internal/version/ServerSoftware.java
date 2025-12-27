@@ -27,6 +27,10 @@ public class ServerSoftware {
             CRAFTBUKKIT_1_21_6 = new ServerSoftware(CRAFTBUKKIT, _1_21_6),
             CRAFTBUKKIT_1_21_7 = new ServerSoftware(CRAFTBUKKIT, _1_21_7),
             CRAFTBUKKIT_1_21_8 = new ServerSoftware(CRAFTBUKKIT, _1_21_8),
+            CRAFTBUKKIT_1_21_9 = new ServerSoftware(CRAFTBUKKIT, _1_21_9),
+            CRAFTBUKKIT_1_21_10 = new ServerSoftware(CRAFTBUKKIT, _1_21_10),
+            CRAFTBUKKIT_1_21_11 = new ServerSoftware(CRAFTBUKKIT, _1_21_11),
+            PAPER_1_21_11 = new ServerSoftware(PAPER, _1_21_11),
             GLOWSTONE_1_8_8 = new ServerSoftware(GLOWSTONE, _1_8_8),
             GLOWSTONE_1_8_9 = new ServerSoftware(GLOWSTONE, _1_8_9),
             GLOWSTONE_1_12_2 = new ServerSoftware(GLOWSTONE, _1_12_2);
@@ -125,6 +129,21 @@ public class ServerSoftware {
                     case CraftbukkitMappingsVersion._1_21_6: return CRAFTBUKKIT_1_21_6;
                     case CraftbukkitMappingsVersion._1_21_7: return CRAFTBUKKIT_1_21_7;
                 }
+            case "org.bukkit.craftbukkit.v1_21_R6.CraftServer":
+                switch (CraftbukkitMappingsVersion.getMappingsVersion(server)) {
+                    case CraftbukkitMappingsVersion._1_21_9:
+                        //unfortunately we have to do this since CraftBukkit 1.21.9 and 1.21.10 share the same mappings version.
+                        switch (server.getBukkitVersion()) {
+                            case "1.21.9-R0.1-SNAPSHOT": return CRAFTBUKKIT_1_21_9;
+                            case "1.21.10-R0.1-SNAPSHOT": return CRAFTBUKKIT_1_21_10;
+                        }
+                        //best-effort
+                        return CRAFTBUKKIT_1_21_10;
+                }
+            case "org.bukkit.craftbukkit.v1_21_R7.CraftServer":
+                switch (CraftbukkitMappingsVersion.getMappingsVersion(server)) {
+                    case CraftbukkitMappingsVersion._1_21_11: return CRAFTBUKKIT_1_21_11;
+                }
             case "org.bukkit.craftbukkit.CraftServer":
                 // CraftBukkit 1.20.6 and up or Paper 1.20.4 and up:
                 try {
@@ -141,6 +160,8 @@ public class ServerSoftware {
                         case CraftbukkitMappingsVersion._1_21_5: return CRAFTBUKKIT_1_21_5;
                         case CraftbukkitMappingsVersion._1_21_6: return CRAFTBUKKIT_1_21_6;
                         case CraftbukkitMappingsVersion._1_21_7: return CRAFTBUKKIT_1_21_7;
+                        case CraftbukkitMappingsVersion._1_21_9: return CRAFTBUKKIT_1_21_9;
+                        case CraftbukkitMappingsVersion._1_21_11: return CRAFTBUKKIT_1_21_11;
                     }
                 }
             case "net.glowstone.GlowServer":
